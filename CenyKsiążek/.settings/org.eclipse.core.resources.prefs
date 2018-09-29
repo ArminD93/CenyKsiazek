@@ -1,3 +1,6 @@
 eclipse.preferences.version=1
-encoding/add_book_to_list.py=utf-8
+encoding/add_book_to_database.py=utf-8
+encoding/create_database.py=utf-8
 encoding/login.py=utf-8
+encoding/main.py=utf-8
+encoding/plot.py=utf-8

@@ -3,7 +3,10 @@
 import mechanicalsoup
 
 
-def login(email, password):
+
+
+
+def loginToAccount(email, password):
 
     browser = mechanicalsoup.Browser(soup_config={'features':'html.parser'})
     loginPage = browser.get('https://ebooki.swiatczytnikow.pl/mojealerty')
@@ -16,6 +19,25 @@ def login(email, password):
     
     strona = response.text
     
+
+    
     return strona
 
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

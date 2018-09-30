@@ -9,7 +9,7 @@ from matplotlib.pyplot import figure
 figure(num=None, figsize=(1, 1), dpi=80)
 
 
-def createPlot(x_col, y_col):
+def createPlot(x_col, y_col, title):
 
 
     plt.rcParams['figure.figsize'] = 15, 10
@@ -26,7 +26,7 @@ def createPlot(x_col, y_col):
 
     plt.xlabel('data')
     plt.ylabel('cena')
-    plt.title('Cena ksiazki')
+    plt.title(title)
 
     plt.plot(x, y,)
 

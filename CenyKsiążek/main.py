@@ -63,4 +63,7 @@ print (df2)
 x_col = df2['date']
 y_col= df2['prices']
 
-plot.createPlot(x_col, y_col)
+first_title = df2.loc[1,'titles']
+str(first_title)
+
+plot.createPlot(x_col, y_col, first_title)

@@ -25,10 +25,24 @@ def login_to_Account():
     global email
     global password
     
-    email = input("Podaj email do konta: ")
-    password = getpass.getpass("Podaj hasło do konta: ")
+    FLG = False
     
-    return email, password
+    while FLG == False:
+        email = input("Podaj email do konta: ")
+    
+        verify_mail = re.match(r'^.+@[^.].*\.[a-z]{2,10}$', email)
+        
+        if verify_mail : 
+            FLG = True 
+            print("Email prawidłowy")
+        
+            password = getpass.getpass("Podaj hasło do konta: ")
+    
+            return email, password
+        else:  
+            print("Email nieprawidłowy")
+    
+
       
 def get_data_from_webpage():
 

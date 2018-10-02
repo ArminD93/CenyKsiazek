@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# coding: utf-8
+# -*- coding: utf-8 -*-
 import create_database 
 #import add_book_to_database
 
@@ -53,9 +53,18 @@ while id != 't':
         print (df)
     
     
-  
+    
+    
     id = input('Wybierz numer książki: ')
-
+    id2 = int(id)
+                     
+    wybrany_tytul = df.loc[id2,'nazwa']
+    
+    print("wybrany_tytul: ", wybrany_tytul, type(wybrany_tytul))
+    print("")
+    
+   
+    
 
     query = '''
                 SELECT  titles, prices, date
@@ -64,10 +73,7 @@ while id != 't':
                     ON Titles.id=Prices.id
                 INNER JOIN AddDate
                     ON AddDate.id=prices.id 
-                WHERE Titles.titles = (SELECT titles FROM Titles WHERE Titles.id= '''+id+''')
-            
-                AND (Titles.id !=''' +id + '''
-                OR Titles.id =''' +id+''')'''
+                WHERE Titles.titles = \''''+ wybrany_tytul+'''\' ''' # / znak modyfikacji
         
     df2 = pd.DataFrame(pd.read_sql(query,create_database.engine) )
     df2.index = df2.index + 1
@@ -79,6 +85,7 @@ while id != 't':
     first_title = df2.loc[1,'titles']
 
     plot.createPlot(x_col, y_col, first_title)
+    
     id = input('czy zakonczyc? t/n ')
     
 print("Koniec")

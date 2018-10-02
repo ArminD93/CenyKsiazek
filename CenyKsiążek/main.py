@@ -30,7 +30,39 @@ while id != 't':
         
         print('                DOSTĘPNE KSIĄŻKI')
         print(df)
-            
+        
+# ##################################################
+        id = input('Wybierz numer książki: ')
+        id2 = int(id)
+                     
+        wybrany_tytul = df.loc[id2,'nazwa']
+    
+        print("wybrany_tytul: ", wybrany_tytul, type(wybrany_tytul))
+        print("")
+    
+   
+    
+
+        query = '''
+                SELECT  titles, prices, date
+                    FROM Titles 
+                INNER JOIN Prices
+                    ON Titles.id=Prices.id
+                INNER JOIN AddDate
+                    ON AddDate.id=prices.id 
+                WHERE Titles.titles = \''''+ wybrany_tytul+'''\' ''' # / znak modyfikacji
+        
+        df2 = pd.DataFrame(pd.read_sql(query,create_database.engine) )
+        df2.index = df2.index + 1
+        print (df2)
+
+        x_col = df2['date']
+        y_col= df2['prices']
+
+        first_title = df2.loc[1,'titles']
+
+        plot.createPlot(x_col, y_col, first_title)        
+# ##################################################            
     elif ok == '2':
     
         add_to_db.get_date()  
@@ -55,36 +87,7 @@ while id != 't':
     
     
     
-    id = input('Wybierz numer książki: ')
-    id2 = int(id)
-                     
-    wybrany_tytul = df.loc[id2,'nazwa']
-    
-    print("wybrany_tytul: ", wybrany_tytul, type(wybrany_tytul))
-    print("")
-    
-   
-    
 
-    query = '''
-                SELECT  titles, prices, date
-                    FROM Titles 
-                INNER JOIN Prices
-                    ON Titles.id=Prices.id
-                INNER JOIN AddDate
-                    ON AddDate.id=prices.id 
-                WHERE Titles.titles = \''''+ wybrany_tytul+'''\' ''' # / znak modyfikacji
-        
-    df2 = pd.DataFrame(pd.read_sql(query,create_database.engine) )
-    df2.index = df2.index + 1
-    print (df2)
-
-    x_col = df2['date']
-    y_col= df2['prices']
-
-    first_title = df2.loc[1,'titles']
-
-    plot.createPlot(x_col, y_col, first_title)
     
     id = input('czy zakonczyc? t/n ')
     

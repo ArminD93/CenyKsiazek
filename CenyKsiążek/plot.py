@@ -6,12 +6,13 @@ plt.style.use('seaborn-whitegrid')
 
 
 from matplotlib.pyplot import figure
-figure(num=None, figsize=(1, 1), dpi=80)
+
 
 
 def createPlot(x_col, y_col, title):
 
-
+    figure(num=None, figsize=(1, 1), dpi=80)
+    
     plt.rcParams['figure.figsize'] = 15, 10
 
 
@@ -32,3 +33,7 @@ def createPlot(x_col, y_col, title):
 
 
     plt.show()
+  
+
+
+

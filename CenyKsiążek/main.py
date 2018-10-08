@@ -10,7 +10,14 @@ import add_book_to_database as add_to_db
 
 import os
 
+def prepare_plot():
+            
+        x_col = df2['date']
+        y_col= df2['prices']
+        first_title = df2.loc[1,'titles']
 
+        plot.createPlot(x_col, y_col, first_title, id) 
+            
 print('Witaj')
 print('###############')
 
@@ -36,38 +43,57 @@ while id != 't':
         
         print('                DOSTĘPNE KSIĄŻKI')
         print(df)
+        print("------------------------------------------------------")
+        title_list = df['nazwa'].tolist()
+        index_list = df.index.get_values()   
         
 # ##################################################
-        id = input('Wybierz numer książki: ')
+        print('Wybierz: \n numer książki z powyższej listy \n 0 aby wyswietlic wykresy dla wszystkich książek ')
+        id = input('')
         id2 = int(id)
-                     
-        wybrany_tytul = df.loc[id2,'nazwa']
+                 
+        if id2 in index_list:
+            wybrany_tytul = df.loc[id2,'nazwa']
     
-
-    
-   
-    
-
-        query = '''
-                SELECT  titles, prices, date
-                    FROM Titles 
-                INNER JOIN Prices
-                    ON Titles.id=Prices.id
-                INNER JOIN AddDate
-                    ON AddDate.id=prices.id 
-                WHERE Titles.titles = \''''+ wybrany_tytul+'''\' ''' # / znak modyfikacji
+            query = '''
+                    SELECT  titles, prices, date
+                        FROM Titles 
+                    INNER JOIN Prices
+                        ON Titles.id=Prices.id
+                    INNER JOIN AddDate
+                        ON AddDate.id=prices.id 
+                    WHERE Titles.titles = \''''+ wybrany_tytul+'''\' ''' # / znak modyfikacji
+            
+            df2 = pd.DataFrame(pd.read_sql(query,create_database.engine) )
+            df2.index = df2.index + 1
+                 
+            print (df2)
+            prepare_plot()      
+              
+        elif id2 == 0:
+            for title in title_list:
+                query = '''
+                        SELECT  titles, prices, date
+                            FROM Titles 
+                        INNER JOIN Prices
+                            ON Titles.id=Prices.id
+                        INNER JOIN AddDate
+                            ON AddDate.id=prices.id 
+                        WHERE Titles.titles = \''''+ title +'''\' ''' # / znak modyfikacji
+                    
+                df2 = pd.DataFrame(pd.read_sql(query,create_database.engine) )
+                df2.index = df2.index + 1                       
+                print (df2)
         
-        df2 = pd.DataFrame(pd.read_sql(query,create_database.engine) )
-        df2.index = df2.index + 1
-        
-        
-        print (df2)
-
-        x_col = df2['date']
-        y_col= df2['prices']
-        first_title = df2.loc[1,'titles']
-
-        plot.createPlot(x_col, y_col, first_title)        
+                prepare_plot()
+                
+            import matplotlib.pyplot as plt
+            plt.show()   
+        else:
+            print('')
+            print('Posiadasz tylko', len(index_list),'książek')
+            print('Wybierz numer z zakresu od 1 do', len(index_list),'przypisany do Twojej książki zgdonie z listą.') 
+            print('')
 # ##################################################                   
     elif ok == '2':
     
